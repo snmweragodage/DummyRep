@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}History | DermaTRACE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2 class="page-title">My Past Predictions</h2>
+
+{% if results %}
+<div class="history-container">
+    {% for r in results %}
+    <div class="card">
+        <div class="image">
+            <img src="{{ url_for('static', filename='uploads/' + r.filename) }}" alt="Uploaded Image">
+        </div>
+        <div class="info">
+            <p><strong>Prediction:</strong> {{ r.result }}</p>
+            <p><strong>Type:</strong> {{ r.cancer_type }}</p>
+            <p><strong>Risk Level:</strong> <span class="risk {{ r.risk|lower }}">{{ r.risk }}</span></p>
+            <p><strong>Risk %:</strong> {{ r.percentage }}</p>
+            <p><strong>Date:</strong> {{ r.upload_time.strftime('%Y-%m-%d %H:%M') }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="empty">No previous predictions found.</p>
+{% endif %}
+
+<div class="buttons">
+    <a href="/home" class="btn">Back to Home</a>
+</div>
+{% endblock %}
